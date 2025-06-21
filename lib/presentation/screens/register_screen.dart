@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forms_app/presentation/blocs/register/register_cubit.dart';
 
 import '../widgets/widgets.dart';
 
@@ -9,7 +11,10 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Nuevo Usuario')),
-      body: const _RegisterView(),
+      body: BlocProvider<RegisterCubit>(
+        create: (_) => RegisterCubit(),
+        child: const _RegisterView(),
+      ),
     );
   }
 }
@@ -26,7 +31,7 @@ class _RegisterView extends StatelessWidget {
           child: Column(
             children: [
               FlutterLogo(size: 100),
-              //_RegisterForm(),
+              _RegisterForm(),
               SizedBox(height: 20),
             ],
           ),
@@ -41,7 +46,7 @@ class _RegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final registerCubit = context.watch<RegisterCubit>();
+    final registerCubit = context.watch<RegisterCubit>();
     // final username = registerCubit.state.username;
     // final email = registerCubit.state.email;
     // final password = registerCubit.state.password;
@@ -51,14 +56,14 @@ class _RegisterForm extends StatelessWidget {
         children: [
           CustomTextFormField(
             label: 'Nombre de usuario',
-            // onChanged: registerCubit.usernameChanged,
+            onChanged: registerCubit.usernameChanged,
             // errorMessage: username.errorMessage,
           ),
           const SizedBox(height: 10),
 
           CustomTextFormField(
             label: 'Correo electrónico',
-            // onChanged: registerCubit.emailChanged,
+            onChanged: registerCubit.emailChanged,
             // errorMessage: email.errorMessage,
           ),
           const SizedBox(height: 10),
@@ -66,7 +71,7 @@ class _RegisterForm extends StatelessWidget {
           CustomTextFormField(
             label: 'Contraseña:',
             obscureText: true,
-            // onChanged: registerCubit.passwordChanged,
+            onChanged: registerCubit.passwordChanged,
             // errorMessage: password.errorMessage,
           ),
 
@@ -74,7 +79,7 @@ class _RegisterForm extends StatelessWidget {
 
           FilledButton.tonalIcon(
             onPressed: () {
-              // registerCubit.onSubmit();
+              registerCubit.onSubmit();
             },
             icon: const Icon(Icons.save),
             label: const Text('Crear usuario'),
